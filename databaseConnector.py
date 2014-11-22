@@ -6,7 +6,7 @@ DATABASE = 'spunout.sqlite'
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect('spunout.sqlite')
+        db = g._database = sqlite3.connect('spunout.sqlite3')
     return db
 
 #@app.teardown_appcontext
@@ -21,23 +21,34 @@ def query_db(query, args=(), one=False):
      cur.close()
      return (rv[0] if rv else None) if one else rv
 
+def get_all():
+    data = query_db('select * from responces', one = False)
+    return data
+
 def get_user(user_id):
-    user = query_db('select * from users where user_id = ?', [user_id], one=True)
+    user = query_db('select * from users where email = ?', [user_id], one=True)
     if user is None:
         return None
     else:
         return user
 
-def get_responce(reponce_id):
+def get_responce(responce_id):
     responce = query_db('select * from responces where responce_id = ?', [responce_id], one=True)
     if responce is None:
         return None
     else:
         return responce
 
-def get_responces(user_id):
-    responces = query_db('select * from responces where user_id = ?', [user_id], One = False)
+def get_responces(email):
+    responces = query_db('select * from responces where email = ?', [email], One = False)
     if responce is None:
         return None
     else:
         return responce
+def post_responce(email,question_id,datetime,response):
+    data = [email,question_id,datetime,response]
+    responce = query_db('insert into responces values (2,?,?,?,?);', data )
+    return responce
+
+def put_responce(email, question_id, datetime, responce):
+    query_db('insert into responces('+email+','+question_id+','+datetime+','+responce+ ')')

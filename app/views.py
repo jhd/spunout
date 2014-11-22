@@ -1,30 +1,49 @@
 #!flask/bin/python
 from app import app
-from flask import Flask, jsonify,request
-from databaseConnector import get_user
+from flask import Flask, jsonify,request, make_response
+from databaseConnector import get_user, get_all, get_responce, get_responces, post_responce 
 
-fakedata = [
-    {
-        'user_id': 1,
-        'question_id' : 2,
-        'datetime' : u'2014/12/26',
-        'response' : u'WAT'
-    }
-]
+def no_data_found(message):
+    return make_response(jsonify({'error': message }), 400)
+
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+    return "Whoop whoop!"
 
 # retuns all data in the database
 @app.route('/api/getalldata', methods=['GET'])
 def getalldata():
-    return str(1)
-# returns a single users data 
-@app.route('/api/getuserdata/<int:user_id>', methods=['GET'])
-def getdataforuser(user_id):
-    return get_user(user_id)
-#push user data to database
-@app.route('/api/putdata/<int:user_id>', methods=['POST'])
-def putdataforuser(user_id):
-    return str(1)
+    data = get_all()
+    if data is None:
+        return no_data_found("No data found at all")
+    else:
+        return jsonify({'data': data})
+
+@app.route('/api/getuserdata/<string:user_email>', methods=['GET'])
+def getdataforuser(user_email):
+    data = get_user(user_email)
+    if data is None:
+        return no_data_found("No data found for " + user_email)
+    else:
+        return jsonify({'data': data})
+
+@app.route('/api/getresponce/<string:responce_id>', methods=['GET'])
+def getresponse(responce_id):
+    data = get_responce(responce_id)
+    if data is None:
+        return no_data_found("No data found for" + responce_id)
+    else:
+        return jsonify({'data': data})
+
+@app.route('/api/getresponces/<string:user_email>', methods=['GET'])
+def getresponses(user_email):
+    data = get_responces(user_email)
+    if data is None:
+        return no_data_found("No response data found for" + user_email)
+    else:
+        return jsonify({'data': data})
+
+@app.route('/api/putresponce/<string:email>/<int:question_id>/<string:datetime>/<string:response>', methods=['GET'])
+def putresponse(email,question_id,datetime,response):
+    return jsonify({'success': post_responce(email,question_id,datetime,response)[0]})
