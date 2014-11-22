@@ -35,9 +35,11 @@ def get_responce(reponce_id):
     else:
         return responce
 
-def get_responces(user_id):
-    responces = query_db('select * from responces where user_id = ?', [user_id], One = False)
+def get_responces(email):
+    responces = query_db('select * from responces where email = ?', [email], One = False)
     if responce is None:
         return None
     else:
         return responce
+def put_responce(email, question_id, datetime, responce):
+    query_db('insert into responces('+email+','+question_id+','+datetime+','+responce+ ')')
