@@ -1,7 +1,7 @@
 #!flask/bin/python
 from app import app
 from flask import Flask, jsonify,request, make_response
-from databaseConnector import get_user, get_all, get_responce, get_responces    
+from databaseConnector import get_user, get_all, get_responce, get_responces, post_responce 
 
 def no_data_found(message):
     return make_response(jsonify({'error': message }), 400)
@@ -18,7 +18,7 @@ def getalldata():
     if data is None:
         return no_data_found("No data found at all")
     else:
-        return data
+        return jsonify({'data': data})
 
 @app.route('/api/getuserdata/<string:user_email>', methods=['GET'])
 def getdataforuser(user_email):
@@ -26,7 +26,7 @@ def getdataforuser(user_email):
     if data is None:
         return no_data_found("No data found for " + user_email)
     else:
-        return data
+        return jsonify({'data': data})
 
 @app.route('/api/getresponce/<string:responce_id>', methods=['GET'])
 def getresponse(responce_id):
@@ -34,7 +34,7 @@ def getresponse(responce_id):
     if data is None:
         return no_data_found("No data found for" + responce_id)
     else:
-        return data
+        return jsonify({'data': data})
 
 @app.route('/api/getresponces/<string:user_email>', methods=['GET'])
 def getresponses(user_email):
@@ -42,4 +42,8 @@ def getresponses(user_email):
     if data is None:
         return no_data_found("No response data found for" + user_email)
     else:
-        return data
+        return jsonify({'data': data})
+
+@app.route('/api/putresponce/<string:email>/<int:question_id>/<string:datetime>/<string:response>', methods=['GET'])
+def putresponse(email,question_id,datetime,response):
+    return jsonify({'success': post_responce(email,question_id,datetime,response)[0]})
