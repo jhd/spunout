@@ -6,7 +6,7 @@ DATABASE = 'spunout.sqlite'
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect('spunout.sqlite')
+        db = g._database = sqlite3.connect('spunout.sqlite3')
     return db
 
 #@app.teardown_appcontext
@@ -21,8 +21,12 @@ def query_db(query, args=(), one=False):
      cur.close()
      return (rv[0] if rv else None) if one else rv
 
+def get_all():
+    data = query_db('select * from users', one = False)
+    return data
+
 def get_user(user_id):
-    user = query_db('select * from email where user_id = ?', [user_id], one=True)
+    user = query_db('select * from users where email = ?', [user_id], one=True)
     if user is None:
         return None
     else:
