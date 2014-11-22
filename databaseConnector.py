@@ -1,6 +1,7 @@
 import sqlite3
 from flash import g
 
+DATABAES = 'spunout.sqlite'
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
