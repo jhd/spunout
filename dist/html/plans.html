@@ -49,11 +49,47 @@
 
     <div class="jumbotron">
       <div class="container">
-        <h3>How willing are you to go out tonight?</h3>
-        <p><div id="slider"></div></p>
-        <p>
-          <input type="text" id="willingness" readonly>
-        </p>
+
+        <form name="plansForm" action="plans.php" method="POST">
+
+          <h3>Are you planning on going out tonight?</h3>
+          <div id="plan-out">
+            <input type="radio" id="plan-out-yes" type="text" name="radio" value="true">
+            <label for="plan-out-yes">Yes</label>
+            <input type="radio" id="plan-out-no" type="text" name="radio" value="false">
+            <label for="plan-out-no">No</label>
+          </div>
+
+          <h3>How willing are you to go out tonight?</h3>
+          <p><div id="slider-will"></div></p>
+          <p>
+            <input type="text" id="will-value" readonly>
+          </p>
+
+          <h3>How much are you looking forward to drinking tonight?</h3>
+          <p><div id="slider-drink"></div></p>
+          <p>
+            <input type="text" id="drink-value" readonly>
+          </p>
+
+          <h3>How many drinks did you have last time?</h3>
+          <p><div id="slider-drinks"></div></p>
+          <p>
+            <input type="text" id="drinks-value" readonly>
+          </p>
+
+          <h3>How much fun did you have last time?</h3>
+          <p><div id="slider-fun"></div></p>
+          <p>
+            <input type="text" id="fun-value" readonly>
+          </p>
+
+          <p>
+            <input type="submit" value="Submit" name="submit">
+          </p>
+
+        </form>
+
       </div>
     </div>
 
@@ -63,21 +99,65 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 
-    <script>
+    <script type="text/javascript">
     $(function() {
-      var maxVal = 10;
-      $("#slider").slider({
+
+      var MAX_VAL = 10;
+      $("#slider-will").slider({
         value:  5,
         min:    1,
-        max:   maxVal,
+        max:    MAX_VAL,
         step:   1,
         slide: function( event, ui ) {
-          $("#willingness").val(ui.value + " / " + maxVal);
+          $("#will-value").val(ui.value + " / " + MAX_VAL);
         }
       });
-      $("#willingness").val(
-        $("#slider").slider("value") + " / " + maxVal
+      $("#will-value").val(
+        $("#slider-will").slider("value") + " / " + MAX_VAL
       );
+
+      $("#slider-drink").slider({
+        value:  5,
+        min:    1,
+        max:    MAX_VAL,
+        step:   1,
+        slide: function( event, ui ) {
+          $("#drink-value").val(ui.value + " / " + MAX_VAL);
+        }
+      });
+      $("#drink-value").val(
+        $("#slider-drink").slider("value") + " / " + MAX_VAL
+      );
+
+      $("#slider-drinks").slider({
+        value:  5,
+        min:    1,
+        max:    MAX_VAL,
+        step:   1,
+        slide: function( event, ui ) {
+          $("#drinks-value").val(ui.value + " / " + MAX_VAL);
+        }
+      });
+      $("#drinks-value").val(
+        $("#slider-drinks").slider("value") + " / " + MAX_VAL
+      );
+
+      $("#slider-fun").slider({
+        value:  5,
+        min:    1,
+        max:    MAX_VAL,
+        step:   1,
+        slide: function( event, ui ) {
+          $("#fun-value").val(ui.value + " / " + MAX_VAL);
+        }
+      });
+      $("#fun-value").val(
+        $("#slider-fun").slider("value") + " / " + MAX_VAL
+      );
+
+      $("#plan-out").buttonset();
+      $("input:submit").button();
+
     });
     </script>
 
