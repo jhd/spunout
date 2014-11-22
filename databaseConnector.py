@@ -22,7 +22,7 @@ def query_db(query, args=(), one=False):
      return (rv[0] if rv else None) if one else rv
 
 def get_user(user_id):
-    user = query_db('select * from users where user_id = ?', [user_id], one=True)
+    user = query_db('select * from email where user_id = ?', [user_id], one=True)
     if user is None:
         return None
     else:
