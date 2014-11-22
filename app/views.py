@@ -1,6 +1,7 @@
 #!flask/bin/python
 from app import app
 from flask import Flask, jsonify,request
+from databaseConnector import get_user
 
 fakedata = [
     {
@@ -18,15 +19,12 @@ def index():
 # retuns all data in the database
 @app.route('/api/getalldata', methods=['GET'])
 def getalldata():
-	return jsonify({'alldata' : fakedata})
-
+    return str(1)
 # returns a single users data 
 @app.route('/api/getuserdata/<int:user_id>', methods=['GET'])
 def getdataforuser(user_id):
-	return "some user data for " + str(user_id)
-
+    return get_user(user_id)
 #push user data to database
 @app.route('/api/putdata/<int:user_id>', methods=['POST'])
 def putdataforuser(user_id):
-	q_id = request.form['question_id']
-	return str(user_id)
+    return str(1)

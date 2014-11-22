@@ -1,15 +1,15 @@
 import sqlite3
-from flash import g
+from flask import g
 
 DATABASE = 'spunout.sqlite'
 
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = connect_to_database()
+        db = g._database = sqlite3.connect('spunout.sqlite')
     return db
 
-@app.teardown_appcontext
+#@app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
