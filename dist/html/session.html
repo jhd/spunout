@@ -59,11 +59,19 @@
         <h3>How rekt are you?</h3>
         <p><div id="slider-rekt"></div></p>
         <p>
-          <input type="text" id="rekt-value" readonly>
+          <input type="text" id="rekt-value" readonly style="width=20px">
         </p>
 
         <h3>How many drinks have you had?</h3>
-        <p><label>
+        <p>
+          <label for="spin-beer">Beer:</label>
+          <input id="spin-beer" name="beer-value">
+        </p>
+
+        <p>
+          <label for="spin-shots">Shots:</label>
+          <input id="spin-shots" name="shots-value">
+        </p>
 
       </div>
     </div>
@@ -104,6 +112,17 @@
       $("#rekt-value").val(
         $("#slider-rekt").slider("value") + " / " + MAX_VAL
       );
+
+      $("#spin-beer").spinner({
+        min:    0
+      });
+      $("#spin-beer").width(30);
+
+      $("#spin-shots").spinner({
+        min:    0
+      });
+      $("#spin-shots").width(30);
+
     });
     </script>
 
